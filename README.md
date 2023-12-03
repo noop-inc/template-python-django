@@ -1,12 +1,6 @@
-This guide was written with:
+# Django Noop Blueprint
 
-| Software | Version  | 
-|----------|----------|
-| Noop     | v2.0.110 |
-| Python   | v3.12.0  |
-| Django   | v4.2.7   |
-
-### Project Bootstrap
+## Project Bootstrap
 
 Download and install [Python](https://wiki.python.org/moin/BeginnersGuide/Download).
 
@@ -28,6 +22,8 @@ Bootstrap a Django project
 ```bash
 django-admin startproject noop_example
 ```
+
+## Noop Setup
 
 [Install Noop Desktop](https://noop.dev/docs/installation/)
 
@@ -210,3 +206,13 @@ workflow:
                 - $steps: Environment.id
 
 ```
+
+-----
+
+This guide was written with:
+
+| Software | Version  | 
+|----------|----------|
+| Noop     | v2.0.110 |
+| Python   | v3.12.0  |
+| Django   | v4.2.7   |
