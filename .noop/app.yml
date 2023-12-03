@@ -1,0 +1,64 @@
+components:
+  - name: Django
+    type: service
+    image: python:3.12.0-slim
+    port: 8000
+    build:
+      steps:
+        - directory: /app
+        - copy: requirements.txt
+          destination: ./
+        - copy: noop_example
+          destination: noop_example
+        - run: pip3 install -r requirements.txt --no-cache-dir
+    runtime:
+      command: python3 noop_example/manage.py runserver 0.0.0.0:8000
+      resources:
+        - DjangoDB
+      variables:
+        DB_NAME:
+          $resources: DjangoDB.database
+        DB_USER:
+          $resources: DjangoDB.username
+        DB_PASS:
+          $resources: DjangoDB.password
+        DB_HOST:
+          $resources: DjangoDB.host
+        DB_PORT:
+          $resources: DjangoDB.port
+  - name: DjangoMigrate
+    type: task
+    image: python:3.12.0-slim
+    build:
+      steps:
+        - directory: /app
+        - copy: requirements.txt
+          destination: ./
+        - copy: noop_example
+          destination: noop_example
+        - run: pip3 install -r requirements.txt --no-cache-dir
+    runtime:
+      command: python3 noop_example/manage.py migrate
+      resources:
+        - DjangoDB
+      variables:
+        DB_NAME:
+          $resources: DjangoDB.database
+        DB_USER:
+          $resources: DjangoDB.username
+        DB_PASS:
+          $resources: DjangoDB.password
+        DB_HOST:
+          $resources: DjangoDB.host
+        DB_PORT:
+          $resources: DjangoDB.port
+lifecycles:
+  - event: BeforeServices
+    components:
+    - DjangoMigrate
+resources:
+  - name: DjangoDB
+    type: postgresql
+routes:
+  - target:
+      component: Django
